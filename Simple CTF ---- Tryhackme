@@ -1,5 +1,3 @@
-(ONLY USER FLAG FOUND)
-
 START THE CHALLENGE WITH A NMAP SCAN ------------------------------
 
 -------------------------------------SCAN RESULTS ---------------------------------------------------
@@ -110,6 +108,27 @@ password - <password>>
 USE THE OBTAINED PASSWORD AS SSH CRED USER NAME CAN BE FOUND IN robots.txt
 
 FIND USER.TXT IN THE SYSTEM
+
+NOW use comman :- sudo -l 
+to list all the command the user can do as admin without any priveledges 
+
+as you see WE CAN USE VIM 
+
+SO MAKE SOMETHING IN VIM
+EXAMPLE :- sudo vim test
+
+~
+~
+~
+~
+~
+~
+~
+~
+:!sh
+
+NOW YOU ARE ROOT .
+GOTO THE ROOT DIRECTORY AND FIND THE ROOT FLAG.
 
 
 
