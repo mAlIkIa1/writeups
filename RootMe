@@ -1,0 +1,160 @@
+STEP 1
+
+
+deploy the machine 
+
+step 2
+
+start with a nmap scan 
+
+command --- sudo nmap -sV -A <ipaddress>
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-11 09:16 UTC
+Nmap scan report for <ipaddress>
+Host is up (0.25s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 4a:b9:16:08:84:c2:54:48:ba:5c:fd:3f:22:5f:22:14 (RSA)
+|   256 a9:a6:86:e8:ec:96:c3:f0:03:cd:16:d5:49:73:d0:82 (ECDSA)
+|_  256 22:f6:b5:a6:54:d9:78:7c:26:03:5a:95:f3:f9:df:cd (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-title: HackIT - Home
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.92%E=4%D=12/11%OT=22%CT=1%CU=36508%PV=Y%DS=2%DC=T%G=Y%TM=6395A0
+OS:2C%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=10C%TI=Z%CI=Z%II=I%TS=A)OP
+OS:S(O1=M508ST11NW6%O2=M508ST11NW6%O3=M508NNT11NW6%O4=M508ST11NW6%O5=M508ST
+OS:11NW6%O6=M508ST11)WIN(W1=F4B3%W2=F4B3%W3=F4B3%W4=F4B3%W5=F4B3%W6=F4B3)EC
+OS:N(R=Y%DF=Y%T=40%W=F507%O=M508NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 53/tcp)
+HOP RTT       ADDRESS
+1   507.93 ms 10.8.0.1
+2   507.99 ms 10.10.49.146
+
+
+
+
+question: 
+Scan the machine, how many ports are open?
+
+answer:- "2" ports are open 
+
+question:
+What version of Apache is running?
+
+answer:- "2.4.29" 
+
+question:
+What service is running on port 22?
+
+answer:- "ssh"
+
+question:
+Find directories on the web server using the GoBuster tool.
+
+answer:
+i used another tool which is preinstalled in most kali linux called ffuf
+
+command:- ffuf -w /usr/share/dirb/wordlists/common.txt -u http://<Target_ip>/FUZZ
+
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.5.0 Kali Exclusive <3
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.10.49.146/FUZZ
+ :: Wordlist         : FUZZ: /usr/share/dirb/wordlists/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+________________________________________________
+
+.htpasswd               [Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 4095ms]
+                        [Status: 200, Size: 616, Words: 115, Lines: 26, Duration: 4095ms]
+.htaccess               [Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 5090ms]
+.hta                    [Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 5099ms]
+css                     [Status: 301, Size: 310, Words: 20, Lines: 10, Duration: 307ms]
+index.php               [Status: 200, Size: 616, Words: 115, Lines: 26, Duration: 309ms]
+js                      [Status: 301, Size: 309, Words: 20, Lines: 10, Duration: 307ms]
+panel                   [Status: 301, Size: 312, Words: 20, Lines: 10, Duration: 306ms]
+server-status           [Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 248ms]
+uploads                 [Status: 301, Size: 314, Words: 20, Lines: 10, Duration: 387ms]
+:: Progress: [4614/4614] :: Job [1/1] :: 152 req/sec :: Duration: [0:00:35] :: Errors: 0 ::
+
+
+question:
+What is the hidden directory?
+
+answer:- /panel/
+
+
+question:
+user.txt??
+
+now for getting a rev shell into the target machine open the /panel/
+
+there will be a uploads webpage .. i uploaded a php revshell at first . it didn't work .
+
+Then i tried changing the .php into  .php5 extention and uploded the rev shell and got a reverse shell using nc -lvnp <port>
+
+using this i got the user.txt
+
+
+question:
+ Search for files with SUID permission, which file is weird? 
+ 
+ use the hint ----->find / -user root -perm /4000 2>/dev/null
+ 
+ this will list all the files accessable without root priveledges
+ 
+
+
+in this you will find an intresting path 
+which is 
+answer:- /usr/bin/python 
+
+got to gtfo bins an search for python and select the SUID
+
+copy paste the exploit and gain root priveledge
+copy paste the root.txt flag and finish the challenge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
